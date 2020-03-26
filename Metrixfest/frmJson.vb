@@ -5,10 +5,11 @@ Public Class frmJson
     Private jiraColumns As New List(Of JiraColumn)
 
     Private Sub SpitOutColumnValues(header As String)
-        txtRates.Text &= header & vbCrLf
-        txtRates.Text &= "______________________________________" & vbCrLf
+        Dim output As String = ""
+        output &= header & vbCrLf
+        output &= "______________________________________" & vbCrLf
         For Each thing As JiraColumn In jiraColumns
-            txtRates.Text &= "Index: " & thing.Index & vbCrLf _
+            output &= "Index: " & thing.Index & vbCrLf _
                 & "ID: " & thing.ID & vbCrLf _
                 & "Name: " & thing.Name & vbCrLf _
                 & "Rate Start: " & thing.RateStart & vbCrLf _
@@ -17,26 +18,29 @@ Public Class frmJson
                 & "System Calc. Rate Str: " & thing.CalculatedRateAsString _
                 & vbCrLf & vbCrLf
         Next
-        txtRates.Text &= "______________________________________" & vbCrLf & vbCrLf
+        output &= "______________________________________" & vbCrLf & vbCrLf
+        txtRates.Text = output
     End Sub
 
     Private Sub SpitOutIssueValues()
+        Dim output As String = ""
 
         For Each thing As JiraIssue In jiraIssues
-            txtIssues.Text &= "Key: " & thing.Key & vbCrLf _
+            output &= "Key: " & thing.Key & vbCrLf _
                 & "Summary: " & thing.Summary & vbCrLf _
                 & "Swimlane ID: " & thing.SwimLaneID & vbCrLf
             For i = 0 To thing.WorkingTime.Length - 1
-                txtIssues.Text &= "Working Time - " & jiraColumns(i).Name & ": " & thing.WorkingTime(i) & ", " & thing.WorkingTimeAsStringByColumn(i) & vbCrLf
+                output &= "Working Time - " & jiraColumns(i).Name & ": " & thing.WorkingTime(i) & ", " & thing.WorkingTimeAsStringByColumn(i) & vbCrLf
             Next
             For i = 0 To thing.LeaveTime.Length - 1
-                txtIssues.Text &= "Leave Time - " & jiraColumns(i).Name & ": " & thing.LeaveTime(i) & ", " & thing.LeaveTimeAsStringByColumn(i) & vbCrLf
+                output &= "Leave Time - " & jiraColumns(i).Name & ": " & thing.LeaveTime(i) & ", " & thing.LeaveTimeAsStringByColumn(i) & vbCrLf
             Next
             For i = 0 To thing.TotalTime.Length - 1
-                txtIssues.Text &= "Total Time - " & jiraColumns(i).Name & ": " & thing.TotalTime(i) & ", " & thing.TotalTimeAsStringByColumn(i) & vbCrLf
+                output &= "Total Time - " & jiraColumns(i).Name & ": " & thing.TotalTime(i) & ", " & thing.TotalTimeAsStringByColumn(i) & vbCrLf
             Next
-            txtIssues.Text &= "______________________________________" & vbCrLf & vbCrLf
+            output &= "______________________________________" & vbCrLf & vbCrLf
         Next
+        txtIssues.Text = output
     End Sub
     Private Function CreateTimeArray(value As JProperty) As Array
         Dim totalTimes(value.Value.Count - 1) As Int64
