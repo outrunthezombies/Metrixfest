@@ -36,6 +36,22 @@
             issueTotalTime = value
         End Set
     End Property
+    Public Property WorkingTime As Array
+        Get
+            Return issueWorkingTime
+        End Get
+        Set(value As Array)
+            issueWorkingTime = value
+        End Set
+    End Property
+    Public Property LeaveTime As Array
+        Get
+            Return issueLeaveTime
+        End Get
+        Set(value As Array)
+            issueLeaveTime = value
+        End Set
+    End Property
     Public ReadOnly Property TotalTimeByColumn(column As Integer) As Int64
         Get
             Return issueTotalTime(column)
@@ -46,26 +62,10 @@
             Return GetSystemTimeAsString(issueTotalTime(column))
         End Get
     End Property
-    Public Property WorkingTime As Array
-        Get
-            Return issueWorkingTime
-        End Get
-        Set(value As Array)
-            issueWorkingTime = value
-        End Set
-    End Property
     Public ReadOnly Property WorkingTimeAsStringByColumn(column As Integer) As String
         Get
             Return GetSystemTimeAsString(issueWorkingTime(column))
         End Get
-    End Property
-    Public Property LeaveTime As Array
-        Get
-            Return issueLeaveTime
-        End Get
-        Set(value As Array)
-            issueLeaveTime = value
-        End Set
     End Property
     Public ReadOnly Property LeaveTimeAsStringByColumn(column As Integer) As String
         Get
@@ -73,10 +73,9 @@
                 Dim ticks As Double = Double.Parse(issueLeaveTime(column))
                 Dim time As TimeSpan = TimeSpan.FromMilliseconds(ticks)
                 Dim startdate As DateTime = New DateTime(1970, 1, 1) + time
-                '                Return DateTime.Parse(issueLeaveTime(column)).ToString("dd/MM/yyyy hh:mm:ss tt")
                 Return startdate.ToString
             Catch ex As Exception
-                Return Now ' Format(Now, "dd/MM/yyyy")
+                Return "N/A"
             End Try
         End Get
     End Property

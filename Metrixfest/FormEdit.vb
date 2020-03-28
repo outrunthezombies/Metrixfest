@@ -1,4 +1,4 @@
-﻿Public Class frmEdit
+﻿Public Class FormEdit
     Private vRecordType As RecordType
     Private iRecordType As Integer = -1
 
@@ -20,27 +20,27 @@
         End Set
     End Property
 
-    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
         Me.Close()
     End Sub
 
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles BtnUpdate.Click
         Dim sqlInsertUpdate As String = ""
 
         Select Case pRecordType
-            Case modCommon.RecordType.CycleTime
+            Case ModuleCommon.RecordType.CycleTime
                 sqlInsertUpdate = sqlInsertUpdateCycleTime()
-            Case modCommon.RecordType.Health
+            Case ModuleCommon.RecordType.Health
                 sqlInsertUpdate = sqlInsertUpdateHealth()
         End Select
 
         Try
-            If openDBConnection(sqlInsertUpdate) Then oOleDbCommand.ExecuteReader()
+            If OpenDBConnection(sqlInsertUpdate) Then oOleDbCommand.ExecuteReader()
         Catch ex As Exception
             My.Application.Log.WriteException(ex, TraceEventType.Error, "Exception in btnUpdate_Click-->openDBConnection with" & sqlInsertUpdate)
         Finally
-            Call closeDBConnection()
-            frmMain.loadCycleTimeTable()
+            Call CloseDBConnection()
+            FormMain.LoadCycleTimeTable()
             Me.Close()
         End Try
     End Sub
@@ -48,22 +48,22 @@
     Private Function sqlInsertUpdateCycleTime() As String
         If iRecordType < 0 Then
             Return "INSERT INTO Cycle_Time (cycle_type,lob,team_key,cycle_date,days) " &
-                "VALUES (""" & txtType.Text & """,""" & txtLOB.Text & """,""" &
-                txtTeam.Text & """,""" & calDate.Value & """," & txtValue.Text & ")"
+                "VALUES (""" & TxtType.Text & """,""" & TxtLOB.Text & """,""" &
+                TxtTeam.Text & """,""" & CalDate.Value & """," & TxtValue.Text & ")"
         Else
-            Return "UPDATE Cycle_Time SET cycle_date=""" & calDate.Value &
-                """, days = """ & txtValue.Text & """ WHERE id=" & iRecordType.ToString
+            Return "UPDATE Cycle_Time SET cycle_date=""" & CalDate.Value &
+                """, days = """ & TxtValue.Text & """ WHERE id=" & iRecordType.ToString
         End If
     End Function
 
     Private Function sqlInsertUpdateHealth() As String
         If iRecordType < 0 Then
             Return "INSERT INTO Cycle_Time (cycle_type,lob,team_key,cycle_date,days) " &
-                "VALUES (""" & txtType.Text & """,""" & txtLOB.Text & """,""" &
-                txtTeam.Text & """,""" & calDate.Value & """," & txtValue.Text & ")"
+                "VALUES (""" & TxtType.Text & """,""" & TxtLOB.Text & """,""" &
+                TxtTeam.Text & """,""" & CalDate.Value & """," & TxtValue.Text & ")"
         Else
-            Return "UPDATE Cycle_Time SET cycle_date=""" & calDate.Value &
-                """, days = """ & txtValue.Text & """ WHERE id=" & iRecordType.ToString
+            Return "UPDATE Cycle_Time SET cycle_date=""" & CalDate.Value &
+                """, days = """ & TxtValue.Text & """ WHERE id=" & iRecordType.ToString
         End If
     End Function
 End Class

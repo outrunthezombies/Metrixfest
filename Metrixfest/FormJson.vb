@@ -1,6 +1,6 @@
 ﻿Imports Newtonsoft.Json.Linq
 
-Public Class frmJson
+Public Class FormJson
     Private jiraIssues As New List(Of JiraIssue)
     Private jiraColumns As New List(Of JiraColumn)
 
@@ -43,6 +43,8 @@ Public Class frmJson
         txtIssues.Text = output
     End Sub
     Private Function CreateTimeArray(value As JProperty) As Array
+        MsgBox(value.Count)
+        MsgBox(value.Value.Count)
         Dim totalTimes(value.Value.Count - 1) As Int64
         For i = 0 To value.Value.Count - 1
             totalTimes(i) = value.Value(i).Value(Of Int64)
@@ -53,7 +55,6 @@ Public Class frmJson
     Private Sub BuildJiraIssuesAndColumnsFromJson()
         Dim json As JObject = JObject.Parse(txtJson.Text)
         Dim data As List(Of JToken) = json.Children().ToList
-        Dim output As String = ""
         txtRates.Clear()
         jiraIssues.Clear()
         jiraColumns.Clear()

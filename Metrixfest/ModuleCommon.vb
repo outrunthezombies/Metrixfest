@@ -1,7 +1,8 @@
 ﻿Imports System.Text
 Imports Atlassian.Jira
+Imports System.Data.OleDb
 
-Module modCommon
+Module ModuleCommon
     Private username As String = "gbsalsman@gmail.com"
     Private password As String = "Rollins!970"
     Private encodedcredentials As String = Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password))
@@ -12,23 +13,23 @@ Module modCommon
     Private itemsPerPage As Integer = 100
     Private itemStart As Integer = 0
 
-    Public sDBPath As String = "C:\Users\Greg\source\repos\Metrixfest\Metrixfest\metrixfest.mdb"
-    Public sConnectionString As String = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source =" & sDBPath & ";Persist Security Info=False;"
-    Public oOleDbConnection As System.Data.OleDb.OleDbConnection
-    Public oOleDbCommand As OleDb.OleDbCommand
-    Public oOleDbDataReader As OleDb.OleDbDataReader
+    Private sDBPath As String = "C:\Users\Greg\source\repos\Metrixfest\Metrixfest\metrixfest.mdb"
+    Private sConnectionString As String = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source =" & sDBPath & ";Persist Security Info=False;"
+    Public oOleDbConnection As OleDbConnection
+    Public oOleDbCommand As OleDbCommand
+    Public oOleDbDataReader As OleDbDataReader
     Public Enum RecordType
         CycleTime = 0
         Health = 1
     End Enum
 
-    Public Function openDBConnection(sql As String) As Boolean
+    Public Function OpenDBConnection(sql As String) As Boolean
         Try
-            oOleDbConnection = New System.Data.OleDb.OleDbConnection()
+            oOleDbConnection = New OleDbConnection()
             oOleDbConnection.ConnectionString = sConnectionString
             oOleDbConnection.Open()
             If oOleDbConnection.State = ConnectionState.Open Then
-                oOleDbCommand = New System.Data.OleDb.OleDbCommand(sql, oOleDbConnection)
+                oOleDbCommand = New OleDbCommand(sql, oOleDbConnection)
             End If
 
             Return vbTrue
@@ -41,7 +42,7 @@ Module modCommon
         End Try
     End Function
 
-    Public Sub closeDBConnection()
+    Public Sub CloseDBConnection()
         Try
             oOleDbConnection.Close()
         Catch ex As Exception
